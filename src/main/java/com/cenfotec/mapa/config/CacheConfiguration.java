@@ -48,6 +48,8 @@ public class CacheConfiguration {
             createCache(cm, com.cenfotec.mapa.domain.User.class.getName());
             createCache(cm, com.cenfotec.mapa.domain.Authority.class.getName());
             createCache(cm, com.cenfotec.mapa.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.cenfotec.mapa.domain.Nodo.class.getName());
+            createCache(cm, com.cenfotec.mapa.domain.Arco.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,104 @@
+<div>
+  <h2 id="page-heading" data-cy="ArcoHeading">
+    <span jhiTranslate="proyectoEstructurasDosApp.arco.home.title">Arcos</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="proyectoEstructurasDosApp.arco.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-arco"
+        [routerLink]="['/arco/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="proyectoEstructurasDosApp.arco.home.createLabel"> Create a new Arco </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="arcos?.length === 0">
+    <span jhiTranslate="proyectoEstructurasDosApp.arco.home.notFound">No arcos found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="arcos && arcos.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="weight">
+            <span jhiTranslate="proyectoEstructurasDosApp.arco.weight">Weight</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="from.id">
+            <span jhiTranslate="proyectoEstructurasDosApp.arco.from">From</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="to.id">
+            <span jhiTranslate="proyectoEstructurasDosApp.arco.to">To</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let arco of arcos; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/arco', arco.id, 'view']">{{ arco.id }}</a>
+          </td>
+          <td>{{ arco.weight }}</td>
+          <td>
+            <div *ngIf="arco.from">
+              <a [routerLink]="['/nodo', arco.from?.id, 'view']">{{ arco.from?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="arco.to">
+              <a [routerLink]="['/nodo', arco.to?.id, 'view']">{{ arco.to?.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/arco', arco.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/arco', arco.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(arco)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="arcos && arcos.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

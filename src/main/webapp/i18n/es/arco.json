@@ -1,0 +1,26 @@
+{
+  "proyectoEstructurasDosApp": {
+    "arco": {
+      "home": {
+        "title": "Arcos",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Arco",
+        "createOrEditLabel": "Crear o editar Arco",
+        "notFound": "Ningún Arcos encontrado"
+      },
+      "created": "Un nuevo Arco ha sido creado con el identificador {{ param }}",
+      "updated": "Un Arco ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Arco ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Arco {{ id }}?"
+      },
+      "detail": {
+        "title": "Arco"
+      },
+      "id": "ID",
+      "weight": "Weight",
+      "from": "From",
+      "to": "To"
+    }
+  }
+}

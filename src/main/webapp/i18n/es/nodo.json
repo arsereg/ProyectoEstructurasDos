@@ -1,0 +1,26 @@
+{
+  "proyectoEstructurasDosApp": {
+    "nodo": {
+      "home": {
+        "title": "Nodos",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Nodo",
+        "createOrEditLabel": "Crear o editar Nodo",
+        "notFound": "Ningún Nodos encontrado"
+      },
+      "created": "Un nuevo Nodo ha sido creado con el identificador {{ param }}",
+      "updated": "Un Nodo ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Nodo ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Nodo {{ id }}?"
+      },
+      "detail": {
+        "title": "Nodo"
+      },
+      "id": "ID",
+      "name": "Name",
+      "x": "X",
+      "y": "Y"
+    }
+  }
+}
