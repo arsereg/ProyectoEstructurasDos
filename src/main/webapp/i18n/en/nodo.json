@@ -1,0 +1,26 @@
+{
+  "proyectoEstructurasDosApp": {
+    "nodo": {
+      "home": {
+        "title": "Nodos",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Nodo",
+        "createOrEditLabel": "Create or edit a Nodo",
+        "notFound": "No Nodos found"
+      },
+      "created": "A new Nodo is created with identifier {{ param }}",
+      "updated": "A Nodo is updated with identifier {{ param }}",
+      "deleted": "A Nodo is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Nodo {{ id }}?"
+      },
+      "detail": {
+        "title": "Nodo"
+      },
+      "id": "ID",
+      "name": "Name",
+      "x": "X",
+      "y": "Y"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "applications": "*",
+  "changelogDate": "20220419015033",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "nodo",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "x",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "y",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Nodo",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}
