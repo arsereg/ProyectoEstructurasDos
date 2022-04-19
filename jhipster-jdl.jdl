@@ -1,0 +1,23 @@
+entity Nodo{
+    name String
+	x Double
+    y Double
+}
+
+
+entity Arco{
+	weight Double
+}
+
+
+relationship OneToOne{
+	Arco{from} to Nodo
+    Arco{to} to Nodo
+}
+
+
+paginate * with pagination
+
+dto * with mapstruct
+
+service all with serviceImpl
