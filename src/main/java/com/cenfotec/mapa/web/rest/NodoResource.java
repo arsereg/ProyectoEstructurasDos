@@ -137,15 +137,13 @@ public class NodoResource {
     /**
      * {@code GET  /nodos} : get all the nodos.
      *
-     * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of nodos in body.
      */
     @GetMapping("/nodos")
-    public ResponseEntity<List<NodoDTO>> getAllNodos(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<NodoDTO>> getAllNodos() {
         log.debug("REST request to get a page of Nodos");
-        Page<NodoDTO> page = nodoService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<NodoDTO> page = nodoService.findAll();
+        return ResponseEntity.ok().body(page);
     }
 
     /**

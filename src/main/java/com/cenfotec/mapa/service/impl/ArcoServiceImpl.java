@@ -5,7 +5,11 @@ import com.cenfotec.mapa.repository.ArcoRepository;
 import com.cenfotec.mapa.service.ArcoService;
 import com.cenfotec.mapa.service.dto.ArcoDTO;
 import com.cenfotec.mapa.service.mapper.ArcoMapper;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -56,9 +60,9 @@ public class ArcoServiceImpl implements ArcoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ArcoDTO> findAll(Pageable pageable) {
+    public List<ArcoDTO> findAll() {
         log.debug("Request to get all Arcos");
-        return arcoRepository.findAll(pageable).map(arcoMapper::toDto);
+        return arcoRepository.findAll().stream().map(arcoMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

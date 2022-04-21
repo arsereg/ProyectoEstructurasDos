@@ -10,7 +10,7 @@ entity Arco{
 }
 
 
-relationship OneToOne{
+relationship ManyToMany{
 	Arco{from} to Nodo
     Arco{to} to Nodo
 }

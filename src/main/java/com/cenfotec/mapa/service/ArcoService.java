@@ -1,6 +1,8 @@
 package com.cenfotec.mapa.service;
 
 import com.cenfotec.mapa.service.dto.ArcoDTO;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,10 +30,9 @@ public interface ArcoService {
     /**
      * Get all the arcos.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<ArcoDTO> findAll(Pageable pageable);
+    List<ArcoDTO> findAll();
 
     /**
      * Get the "id" arco.
