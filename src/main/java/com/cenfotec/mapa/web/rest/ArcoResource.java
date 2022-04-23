@@ -138,13 +138,23 @@ public class ArcoResource {
      * {@code GET  /arcos} : get all the arcos.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of arcos in body.
      */
     @GetMapping("/arcos")
-    public ResponseEntity<List<ArcoDTO>> getAllArcos(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<ArcoDTO>> getAllArcos(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false, defaultValue = "true") boolean eagerload
+    ) {
         log.debug("REST request to get a page of Arcos");
-        List<ArcoDTO> page = arcoService.findAll();
-        return ResponseEntity.ok().body(page);
+        Page<ArcoDTO> page;
+        if (eagerload) {
+            page = arcoService.findAllWithEagerRelationships(pageable);
+        } else {
+            return ResponseEntity.ok().body(arcoService.findAll());
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

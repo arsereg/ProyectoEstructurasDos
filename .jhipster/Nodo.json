@@ -23,6 +23,21 @@
   "name": "Nodo",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "arco",
+      "otherEntityRelationshipName": "from",
+      "ownerSide": false,
+      "relationshipName": "incoming",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "arco",
+      "otherEntityRelationshipName": "to",
+      "ownerSide": false,
+      "relationshipName": "going",
+      "relationshipType": "many-to-many"
+    }
+  ],
   "service": "serviceImpl"
 }

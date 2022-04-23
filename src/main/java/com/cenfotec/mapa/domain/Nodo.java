@@ -1,6 +1,9 @@
 package com.cenfotec.mapa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -29,6 +32,16 @@ public class Nodo implements Serializable {
 
     @Column(name = "y")
     private Double y;
+
+    @ManyToMany(mappedBy = "froms")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "froms", "tos" }, allowSetters = true)
+    private Set<Arco> incomings = new HashSet<>();
+
+    @ManyToMany(mappedBy = "tos")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "froms", "tos" }, allowSetters = true)
+    private Set<Arco> goings = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -82,6 +95,68 @@ public class Nodo implements Serializable {
 
     public void setY(Double y) {
         this.y = y;
+    }
+
+    public Set<Arco> getIncomings() {
+        return this.incomings;
+    }
+
+    public void setIncomings(Set<Arco> arcos) {
+        if (this.incomings != null) {
+            this.incomings.forEach(i -> i.removeFrom(this));
+        }
+        if (arcos != null) {
+            arcos.forEach(i -> i.addFrom(this));
+        }
+        this.incomings = arcos;
+    }
+
+    public Nodo incomings(Set<Arco> arcos) {
+        this.setIncomings(arcos);
+        return this;
+    }
+
+    public Nodo addIncoming(Arco arco) {
+        this.incomings.add(arco);
+        arco.getFroms().add(this);
+        return this;
+    }
+
+    public Nodo removeIncoming(Arco arco) {
+        this.incomings.remove(arco);
+        arco.getFroms().remove(this);
+        return this;
+    }
+
+    public Set<Arco> getGoings() {
+        return this.goings;
+    }
+
+    public void setGoings(Set<Arco> arcos) {
+        if (this.goings != null) {
+            this.goings.forEach(i -> i.removeTo(this));
+        }
+        if (arcos != null) {
+            arcos.forEach(i -> i.addTo(this));
+        }
+        this.goings = arcos;
+    }
+
+    public Nodo goings(Set<Arco> arcos) {
+        this.setGoings(arcos);
+        return this;
+    }
+
+    public Nodo addGoing(Arco arco) {
+        this.goings.add(arco);
+        arco.getTos().add(this);
+        return this;
+    }
+
+    public Nodo removeGoing(Arco arco) {
+        this.goings.remove(arco);
+        arco.getTos().remove(this);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

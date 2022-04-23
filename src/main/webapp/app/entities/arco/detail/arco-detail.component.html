@@ -20,15 +20,17 @@
         </dd>
         <dt><span jhiTranslate="proyectoEstructurasDosApp.arco.from">From</span></dt>
         <dd>
-          <div *ngIf="arco.from">
-            <a [routerLink]="['/nodo', arco.from?.id, 'view']">{{ arco.from?.id }}</a>
-          </div>
+          <span *ngFor="let from of arco.froms; let last = last">
+            <a [routerLink]="['/nodo', from?.id, 'view']">{{ from.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
         </dd>
         <dt><span jhiTranslate="proyectoEstructurasDosApp.arco.to">To</span></dt>
         <dd>
-          <div *ngIf="arco.to">
-            <a [routerLink]="['/nodo', arco.to?.id, 'view']">{{ arco.to?.id }}</a>
-          </div>
+          <span *ngFor="let to of arco.tos; let last = last">
+            <a [routerLink]="['/nodo', to?.id, 'view']">{{ to.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
         </dd>
       </dl>
 

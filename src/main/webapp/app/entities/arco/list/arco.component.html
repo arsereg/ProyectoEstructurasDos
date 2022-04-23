@@ -36,12 +36,6 @@
           <th scope="col" jhiSortBy="weight">
             <span jhiTranslate="proyectoEstructurasDosApp.arco.weight">Weight</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="from.id">
-            <span jhiTranslate="proyectoEstructurasDosApp.arco.from">From</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="to.id">
-            <span jhiTranslate="proyectoEstructurasDosApp.arco.to">To</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -51,16 +45,6 @@
             <a [routerLink]="['/arco', arco.id, 'view']">{{ arco.id }}</a>
           </td>
           <td>{{ arco.weight }}</td>
-          <td>
-            <div *ngIf="arco.from">
-              <a [routerLink]="['/nodo', arco.from?.id, 'view']">{{ arco.from?.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="arco.to">
-              <a [routerLink]="['/nodo', arco.to?.id, 'view']">{{ arco.to?.id }}</a>
-            </div>
-          </td>
           <td class="text-end">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/arco', arco.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

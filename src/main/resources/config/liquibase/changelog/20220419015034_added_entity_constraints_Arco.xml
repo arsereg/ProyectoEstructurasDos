@@ -8,15 +8,27 @@
     -->
     <changeSet id="20220419015034-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="arco_id"
+                                 baseTableName="rel_arco__from"
+                                 constraintName="fk_rel_arco__from__arco_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="arco"/>
+
         <addForeignKeyConstraint baseColumnNames="from_id"
-                                 baseTableName="arco"
-                                 constraintName="fk_arco__from_id"
+                                 baseTableName="rel_arco__from"
+                                 constraintName="fk_rel_arco__from__from_id"
                                  referencedColumnNames="id"
                                  referencedTableName="nodo"/>
 
+        <addForeignKeyConstraint baseColumnNames="arco_id"
+                                 baseTableName="rel_arco__to"
+                                 constraintName="fk_rel_arco__to__arco_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="arco"/>
+
         <addForeignKeyConstraint baseColumnNames="to_id"
-                                 baseTableName="arco"
-                                 constraintName="fk_arco__to_id"
+                                 baseTableName="rel_arco__to"
+                                 constraintName="fk_rel_arco__to__to_id"
                                  referencedColumnNames="id"
                                  referencedTableName="nodo"/>
     </changeSet>

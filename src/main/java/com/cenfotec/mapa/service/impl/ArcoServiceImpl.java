@@ -65,11 +65,15 @@ public class ArcoServiceImpl implements ArcoService {
         return arcoRepository.findAll().stream().map(arcoMapper::toDto).collect(Collectors.toList());
     }
 
+    public Page<ArcoDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return arcoRepository.findAllWithEagerRelationships(pageable).map(arcoMapper::toDto);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<ArcoDTO> findOne(Long id) {
         log.debug("Request to get Arco : {}", id);
-        return arcoRepository.findById(id).map(arcoMapper::toDto);
+        return arcoRepository.findOneWithEagerRelationships(id).map(arcoMapper::toDto);
     }
 
     @Override

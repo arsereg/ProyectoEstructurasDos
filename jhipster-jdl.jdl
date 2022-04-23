@@ -11,8 +11,8 @@ entity Arco{
 
 
 relationship ManyToMany{
-	Arco{from} to Nodo
-    Arco{to} to Nodo
+	Arco{from} to Nodo{Incoming}
+    Arco{to} to Nodo{Going}
 }
 
 

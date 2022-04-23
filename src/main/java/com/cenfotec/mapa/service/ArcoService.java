@@ -35,6 +35,14 @@ public interface ArcoService {
     List<ArcoDTO> findAll();
 
     /**
+     * Get all the arcos with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<ArcoDTO> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" arco.
      *
      * @param id the id of the entity.

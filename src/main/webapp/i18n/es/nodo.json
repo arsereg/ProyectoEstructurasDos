@@ -20,7 +20,9 @@
       "id": "ID",
       "name": "Name",
       "x": "X",
-      "y": "Y"
+      "y": "Y",
+      "incoming": "Incoming",
+      "going": "Going"
     }
   }
 }

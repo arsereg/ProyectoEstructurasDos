@@ -17,14 +17,33 @@
             <column name="weight" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="from_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_arco__from_id" />
-            </column>
-            <column name="to_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_arco__to_id" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+    </changeSet>
+
+    <changeSet id="20220419015034-1-relations" author="jhipster">
+
+        <createTable tableName="rel_arco__from">
+            <column name="from_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="arco_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="arco_id, from_id" tableName="rel_arco__from"/>
+
+        <createTable tableName="rel_arco__to">
+            <column name="to_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="arco_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="arco_id, to_id" tableName="rel_arco__to"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -45,8 +64,6 @@
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="weight" type="numeric"/>
-            <column name="from_id" type="numeric"/>
-            <column name="to_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
