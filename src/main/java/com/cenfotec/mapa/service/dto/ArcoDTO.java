@@ -2,6 +2,7 @@ package com.cenfotec.mapa.service.dto;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -69,6 +70,20 @@ public class ArcoDTO implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(this.id);
+    }
+
+    public boolean connectsNode(Long id) {
+        for (NodoDTO nodoDTO : this.getFroms()) {
+            if (nodoDTO.getId().equals(id)) {
+                return true;
+            }
+        }
+        for (NodoDTO nodoDTO : this.getTos()) {
+            if (nodoDTO.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // prettier-ignore

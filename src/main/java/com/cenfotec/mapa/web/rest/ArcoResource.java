@@ -2,6 +2,7 @@ package com.cenfotec.mapa.web.rest;
 
 import com.cenfotec.mapa.repository.ArcoRepository;
 import com.cenfotec.mapa.service.ArcoService;
+import com.cenfotec.mapa.service.GraphService;
 import com.cenfotec.mapa.service.dto.ArcoDTO;
 import com.cenfotec.mapa.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,9 +41,12 @@ public class ArcoResource {
 
     private final ArcoRepository arcoRepository;
 
-    public ArcoResource(ArcoService arcoService, ArcoRepository arcoRepository) {
+    private final GraphService graphService;
+
+    public ArcoResource(ArcoService arcoService, ArcoRepository arcoRepository, GraphService graphService) {
         this.arcoService = arcoService;
         this.arcoRepository = arcoRepository;
+        this.graphService = graphService;
     }
 
     /**

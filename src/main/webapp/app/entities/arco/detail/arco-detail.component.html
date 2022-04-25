@@ -21,14 +21,14 @@
         <dt><span jhiTranslate="proyectoEstructurasDosApp.arco.from">From</span></dt>
         <dd>
           <span *ngFor="let from of arco.froms; let last = last">
-            <a [routerLink]="['/nodo', from?.id, 'view']">{{ from.id }}</a
+            <a [routerLink]="['/nodo', from?.id, 'view']">{{ from.name }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>
         <dt><span jhiTranslate="proyectoEstructurasDosApp.arco.to">To</span></dt>
         <dd>
           <span *ngFor="let to of arco.tos; let last = last">
-            <a [routerLink]="['/nodo', to?.id, 'view']">{{ to.id }}</a
+            <a [routerLink]="['/nodo', to?.id, 'view']">{{ to.name }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>
