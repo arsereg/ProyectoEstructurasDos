@@ -46,55 +46,40 @@ describe('Arco Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call from query and add missing value', () => {
+    it('Should call Nodo query and add missing value', () => {
       const arco: IArco = { id: 456 };
-      const from: INodo = { id: 8334 };
-      arco.from = from;
+      const froms: INodo[] = [{ id: 8334 }];
+      arco.froms = froms;
+      const tos: INodo[] = [{ id: 8718 }];
+      arco.tos = tos;
 
-      const fromCollection: INodo[] = [{ id: 8718 }];
-      jest.spyOn(nodoService, 'query').mockReturnValue(of(new HttpResponse({ body: fromCollection })));
-      const expectedCollection: INodo[] = [from, ...fromCollection];
+      const nodoCollection: INodo[] = [{ id: 4515 }];
+      jest.spyOn(nodoService, 'query').mockReturnValue(of(new HttpResponse({ body: nodoCollection })));
+      const additionalNodos = [...froms, ...tos];
+      const expectedCollection: INodo[] = [...additionalNodos, ...nodoCollection];
       jest.spyOn(nodoService, 'addNodoToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ arco });
       comp.ngOnInit();
 
       expect(nodoService.query).toHaveBeenCalled();
-      expect(nodoService.addNodoToCollectionIfMissing).toHaveBeenCalledWith(fromCollection, from);
-      expect(comp.fromsCollection).toEqual(expectedCollection);
-    });
-
-    it('Should call to query and add missing value', () => {
-      const arco: IArco = { id: 456 };
-      const to: INodo = { id: 4515 };
-      arco.to = to;
-
-      const toCollection: INodo[] = [{ id: 56056 }];
-      jest.spyOn(nodoService, 'query').mockReturnValue(of(new HttpResponse({ body: toCollection })));
-      const expectedCollection: INodo[] = [to, ...toCollection];
-      jest.spyOn(nodoService, 'addNodoToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ arco });
-      comp.ngOnInit();
-
-      expect(nodoService.query).toHaveBeenCalled();
-      expect(nodoService.addNodoToCollectionIfMissing).toHaveBeenCalledWith(toCollection, to);
-      expect(comp.tosCollection).toEqual(expectedCollection);
+      expect(nodoService.addNodoToCollectionIfMissing).toHaveBeenCalledWith(nodoCollection, ...additionalNodos);
+      expect(comp.nodosSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const arco: IArco = { id: 456 };
-      const from: INodo = { id: 15515 };
-      arco.from = from;
-      const to: INodo = { id: 64222 };
-      arco.to = to;
+      const froms: INodo = { id: 56056 };
+      arco.froms = [froms];
+      const tos: INodo = { id: 15515 };
+      arco.tos = [tos];
 
       activatedRoute.data = of({ arco });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(arco));
-      expect(comp.fromsCollection).toContain(from);
-      expect(comp.tosCollection).toContain(to);
+      expect(comp.nodosSharedCollection).toContain(froms);
+      expect(comp.nodosSharedCollection).toContain(tos);
     });
   });
 
@@ -168,6 +153,34 @@ describe('Arco Management Update Component', () => {
         const entity = { id: 123 };
         const trackResult = comp.trackNodoById(0, entity);
         expect(trackResult).toEqual(entity.id);
+      });
+    });
+  });
+
+  describe('Getting selected relationships', () => {
+    describe('getSelectedNodo', () => {
+      it('Should return option if no Nodo is selected', () => {
+        const option = { id: 123 };
+        const result = comp.getSelectedNodo(option);
+        expect(result === option).toEqual(true);
+      });
+
+      it('Should return selected Nodo for according option', () => {
+        const option = { id: 123 };
+        const selected = { id: 123 };
+        const selected2 = { id: 456 };
+        const result = comp.getSelectedNodo(option, [selected2, selected]);
+        expect(result === selected).toEqual(true);
+        expect(result === selected2).toEqual(false);
+        expect(result === option).toEqual(false);
+      });
+
+      it('Should return option if this Nodo is not selected', () => {
+        const option = { id: 123 };
+        const selected = { id: 456 };
+        const result = comp.getSelectedNodo(option, [selected]);
+        expect(result === option).toEqual(true);
+        expect(result === selected).toEqual(false);
       });
     });
   });

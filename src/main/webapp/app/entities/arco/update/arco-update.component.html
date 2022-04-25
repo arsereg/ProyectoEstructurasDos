@@ -19,27 +19,25 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="proyectoEstructurasDosApp.arco.from" for="field_from">From</label>
-          <select class="form-control" id="field_from" data-cy="from" name="from" formControlName="from">
-            <option [ngValue]="null"></option>
+          <label jhiTranslate="proyectoEstructurasDosApp.arco.from" for="field_froms">From</label>
+          <select class="form-control" id="field_froms" data-cy="from" multiple name="froms" formControlName="froms">
             <option
-              [ngValue]="nodoOption.id === editForm.get('from')!.value?.id ? editForm.get('from')!.value : nodoOption"
-              *ngFor="let nodoOption of fromsCollection; trackBy: trackNodoById"
+              [ngValue]="getSelectedNodo(nodoOption, editForm.get('froms')!.value)"
+              *ngFor="let nodoOption of nodosSharedCollection; trackBy: trackNodoById"
             >
-              {{ nodoOption.id }}
+              {{ nodoOption.name }}
             </option>
           </select>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="proyectoEstructurasDosApp.arco.to" for="field_to">To</label>
-          <select class="form-control" id="field_to" data-cy="to" name="to" formControlName="to">
-            <option [ngValue]="null"></option>
+          <label jhiTranslate="proyectoEstructurasDosApp.arco.to" for="field_tos">To</label>
+          <select class="form-control" id="field_tos" data-cy="to" multiple name="tos" formControlName="tos">
             <option
-              [ngValue]="nodoOption.id === editForm.get('to')!.value?.id ? editForm.get('to')!.value : nodoOption"
-              *ngFor="let nodoOption of tosCollection; trackBy: trackNodoById"
+              [ngValue]="getSelectedNodo(nodoOption, editForm.get('tos')!.value)"
+              *ngFor="let nodoOption of nodosSharedCollection; trackBy: trackNodoById"
             >
-              {{ nodoOption.id }}
+              {{ nodoOption.name }}
             </option>
           </select>
         </div>

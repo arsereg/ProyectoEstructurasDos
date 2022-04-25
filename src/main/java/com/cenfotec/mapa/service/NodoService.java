@@ -1,6 +1,8 @@
 package com.cenfotec.mapa.service;
 
 import com.cenfotec.mapa.service.dto.NodoDTO;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,10 +30,9 @@ public interface NodoService {
     /**
      * Get all the nodos.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<NodoDTO> findAll(Pageable pageable);
+    List<NodoDTO> findAll();
 
     /**
      * Get the "id" nodo.

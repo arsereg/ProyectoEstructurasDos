@@ -2,6 +2,7 @@ package com.cenfotec.mapa.web.rest;
 
 import com.cenfotec.mapa.repository.ArcoRepository;
 import com.cenfotec.mapa.service.ArcoService;
+import com.cenfotec.mapa.service.GraphService;
 import com.cenfotec.mapa.service.dto.ArcoDTO;
 import com.cenfotec.mapa.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,9 +41,12 @@ public class ArcoResource {
 
     private final ArcoRepository arcoRepository;
 
-    public ArcoResource(ArcoService arcoService, ArcoRepository arcoRepository) {
+    private final GraphService graphService;
+
+    public ArcoResource(ArcoService arcoService, ArcoRepository arcoRepository, GraphService graphService) {
         this.arcoService = arcoService;
         this.arcoRepository = arcoRepository;
+        this.graphService = graphService;
     }
 
     /**
@@ -138,12 +141,21 @@ public class ArcoResource {
      * {@code GET  /arcos} : get all the arcos.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of arcos in body.
      */
     @GetMapping("/arcos")
-    public ResponseEntity<List<ArcoDTO>> getAllArcos(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<ArcoDTO>> getAllArcos(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false, defaultValue = "true") boolean eagerload
+    ) {
         log.debug("REST request to get a page of Arcos");
-        Page<ArcoDTO> page = arcoService.findAll(pageable);
+        Page<ArcoDTO> page;
+        if (eagerload) {
+            page = arcoService.findAllWithEagerRelationships(pageable);
+        } else {
+            return ResponseEntity.ok().body(arcoService.findAll());
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

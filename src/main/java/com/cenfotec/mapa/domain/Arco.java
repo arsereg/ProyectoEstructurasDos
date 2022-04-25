@@ -1,6 +1,9 @@
 package com.cenfotec.mapa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -24,13 +27,17 @@ public class Arco implements Serializable {
     @Column(name = "weight")
     private Double weight;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Nodo from;
+    @ManyToMany
+    @JoinTable(name = "rel_arco__from", joinColumns = @JoinColumn(name = "arco_id"), inverseJoinColumns = @JoinColumn(name = "from_id"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "incomings", "goings" }, allowSetters = true)
+    private Set<Nodo> froms = new HashSet<>();
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Nodo to;
+    @ManyToMany
+    @JoinTable(name = "rel_arco__to", joinColumns = @JoinColumn(name = "arco_id"), inverseJoinColumns = @JoinColumn(name = "to_id"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "incomings", "goings" }, allowSetters = true)
+    private Set<Nodo> tos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -60,29 +67,53 @@ public class Arco implements Serializable {
         this.weight = weight;
     }
 
-    public Nodo getFrom() {
-        return this.from;
+    public Set<Nodo> getFroms() {
+        return this.froms;
     }
 
-    public void setFrom(Nodo nodo) {
-        this.from = nodo;
+    public void setFroms(Set<Nodo> nodos) {
+        this.froms = nodos;
     }
 
-    public Arco from(Nodo nodo) {
-        this.setFrom(nodo);
+    public Arco froms(Set<Nodo> nodos) {
+        this.setFroms(nodos);
         return this;
     }
 
-    public Nodo getTo() {
-        return this.to;
+    public Arco addFrom(Nodo nodo) {
+        this.froms.add(nodo);
+        nodo.getIncomings().add(this);
+        return this;
     }
 
-    public void setTo(Nodo nodo) {
-        this.to = nodo;
+    public Arco removeFrom(Nodo nodo) {
+        this.froms.remove(nodo);
+        nodo.getIncomings().remove(this);
+        return this;
     }
 
-    public Arco to(Nodo nodo) {
-        this.setTo(nodo);
+    public Set<Nodo> getTos() {
+        return this.tos;
+    }
+
+    public void setTos(Set<Nodo> nodos) {
+        this.tos = nodos;
+    }
+
+    public Arco tos(Set<Nodo> nodos) {
+        this.setTos(nodos);
+        return this;
+    }
+
+    public Arco addTo(Nodo nodo) {
+        this.tos.add(nodo);
+        nodo.getGoings().add(this);
+        return this;
+    }
+
+    public Arco removeTo(Nodo nodo) {
+        this.tos.remove(nodo);
+        nodo.getGoings().remove(this);
         return this;
     }
 

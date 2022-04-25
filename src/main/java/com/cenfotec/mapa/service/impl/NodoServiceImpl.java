@@ -5,7 +5,11 @@ import com.cenfotec.mapa.repository.NodoRepository;
 import com.cenfotec.mapa.service.NodoService;
 import com.cenfotec.mapa.service.dto.NodoDTO;
 import com.cenfotec.mapa.service.mapper.NodoMapper;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -56,9 +60,9 @@ public class NodoServiceImpl implements NodoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<NodoDTO> findAll(Pageable pageable) {
+    public List<NodoDTO> findAll() {
         log.debug("Request to get all Nodos");
-        return nodoRepository.findAll(pageable).map(nodoMapper::toDto);
+        return nodoRepository.findAll().stream().map(nodoMapper::toDto).collect(Collectors.toList());
     }
 
     @Override

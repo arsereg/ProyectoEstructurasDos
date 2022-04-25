@@ -18,17 +18,17 @@
   "relationships": [
     {
       "otherEntityName": "nodo",
-      "otherEntityRelationshipName": "arco",
+      "otherEntityRelationshipName": "incoming",
       "ownerSide": true,
       "relationshipName": "from",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "nodo",
-      "otherEntityRelationshipName": "arco",
+      "otherEntityRelationshipName": "going",
       "ownerSide": true,
       "relationshipName": "to",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceImpl"

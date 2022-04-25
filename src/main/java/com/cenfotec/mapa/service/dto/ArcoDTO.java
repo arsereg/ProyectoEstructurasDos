@@ -1,7 +1,10 @@
 package com.cenfotec.mapa.service.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.cenfotec.mapa.domain.Arco} entity.
@@ -12,9 +15,9 @@ public class ArcoDTO implements Serializable {
 
     private Double weight;
 
-    private NodoDTO from;
+    private Set<NodoDTO> froms = new HashSet<>();
 
-    private NodoDTO to;
+    private Set<NodoDTO> tos = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -32,20 +35,20 @@ public class ArcoDTO implements Serializable {
         this.weight = weight;
     }
 
-    public NodoDTO getFrom() {
-        return from;
+    public Set<NodoDTO> getFroms() {
+        return froms;
     }
 
-    public void setFrom(NodoDTO from) {
-        this.from = from;
+    public void setFroms(Set<NodoDTO> froms) {
+        this.froms = froms;
     }
 
-    public NodoDTO getTo() {
-        return to;
+    public Set<NodoDTO> getTos() {
+        return tos;
     }
 
-    public void setTo(NodoDTO to) {
-        this.to = to;
+    public void setTos(Set<NodoDTO> tos) {
+        this.tos = tos;
     }
 
     @Override
@@ -69,14 +72,28 @@ public class ArcoDTO implements Serializable {
         return Objects.hash(this.id);
     }
 
+    public boolean connectsNode(Long id) {
+        for (NodoDTO nodoDTO : this.getFroms()) {
+            if (nodoDTO.getId().equals(id)) {
+                return true;
+            }
+        }
+        for (NodoDTO nodoDTO : this.getTos()) {
+            if (nodoDTO.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
         return "ArcoDTO{" +
             "id=" + getId() +
             ", weight=" + getWeight() +
-            ", from=" + getFrom() +
-            ", to=" + getTo() +
+            ", froms=" + getFroms() +
+            ", tos=" + getTos() +
             "}";
     }
 }

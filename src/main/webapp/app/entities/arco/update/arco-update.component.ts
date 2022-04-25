@@ -17,14 +17,13 @@ import { NodoService } from 'app/entities/nodo/service/nodo.service';
 export class ArcoUpdateComponent implements OnInit {
   isSaving = false;
 
-  fromsCollection: INodo[] = [];
-  tosCollection: INodo[] = [];
+  nodosSharedCollection: INodo[] = [];
 
   editForm = this.fb.group({
     id: [],
     weight: [],
-    from: [],
-    to: [],
+    froms: [],
+    tos: [],
   });
 
   constructor(
@@ -60,6 +59,17 @@ export class ArcoUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  getSelectedNodo(option: INodo, selectedVals?: INodo[]): INodo {
+    if (selectedVals) {
+      for (const selectedVal of selectedVals) {
+        if (option.id === selectedVal.id) {
+          return selectedVal;
+        }
+      }
+    }
+    return option;
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IArco>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -83,26 +93,31 @@ export class ArcoUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: arco.id,
       weight: arco.weight,
-      from: arco.from,
-      to: arco.to,
+      froms: arco.froms,
+      tos: arco.tos,
     });
 
-    this.fromsCollection = this.nodoService.addNodoToCollectionIfMissing(this.fromsCollection, arco.from);
-    this.tosCollection = this.nodoService.addNodoToCollectionIfMissing(this.tosCollection, arco.to);
+    this.nodosSharedCollection = this.nodoService.addNodoToCollectionIfMissing(
+      this.nodosSharedCollection,
+      ...(arco.froms ?? []),
+      ...(arco.tos ?? [])
+    );
   }
 
   protected loadRelationshipsOptions(): void {
     this.nodoService
-      .query({ filter: 'arco-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<INodo[]>) => res.body ?? []))
-      .pipe(map((nodos: INodo[]) => this.nodoService.addNodoToCollectionIfMissing(nodos, this.editForm.get('from')!.value)))
-      .subscribe((nodos: INodo[]) => (this.fromsCollection = nodos));
-
-    this.nodoService
-      .query({ filter: 'arco-is-null' })
-      .pipe(map((res: HttpResponse<INodo[]>) => res.body ?? []))
-      .pipe(map((nodos: INodo[]) => this.nodoService.addNodoToCollectionIfMissing(nodos, this.editForm.get('to')!.value)))
-      .subscribe((nodos: INodo[]) => (this.tosCollection = nodos));
+      .pipe(
+        map((nodos: INodo[]) =>
+          this.nodoService.addNodoToCollectionIfMissing(
+            nodos,
+            ...(this.editForm.get('froms')!.value ?? []),
+            ...(this.editForm.get('tos')!.value ?? [])
+          )
+        )
+      )
+      .subscribe((nodos: INodo[]) => (this.nodosSharedCollection = nodos));
   }
 
   protected createFromForm(): IArco {
@@ -110,8 +125,8 @@ export class ArcoUpdateComponent implements OnInit {
       ...new Arco(),
       id: this.editForm.get(['id'])!.value,
       weight: this.editForm.get(['weight'])!.value,
-      from: this.editForm.get(['from'])!.value,
-      to: this.editForm.get(['to'])!.value,
+      froms: this.editForm.get(['froms'])!.value,
+      tos: this.editForm.get(['tos'])!.value,
     };
   }
 }
