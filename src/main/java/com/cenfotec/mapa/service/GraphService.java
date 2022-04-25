@@ -1,6 +1,7 @@
 package com.cenfotec.mapa.service;
 
 import com.cenfotec.mapa.domain.Edge;
+import com.cenfotec.mapa.domain.ShortestPath;
 import com.cenfotec.mapa.domain.Vertex;
 import com.cenfotec.mapa.domain.VertexDTO;
 import com.cenfotec.mapa.service.dto.ArcoDTO;
@@ -62,10 +63,13 @@ public class GraphService {
         });
     }
 
-    public List<String> findShortestRoute(String from, String to) {
+    public ShortestPath findShortestRoute(String from, String to) {
         initializeGraph();
         djikstraService.computePath(vertex.get(from));
-        return djikstraService.getShortestPathTo(vertex.get(to)).stream().map(Vertex::getName).collect(Collectors.toList());
+        ShortestPath result = new ShortestPath();
+        result.setPath(djikstraService.getShortestPathTo(vertex.get(to)).stream().map(Vertex::getName).collect(Collectors.toList()));
+        result.setWeight(djikstraService.getShortestPathTo(vertex.get(to)).stream().mapToDouble(Vertex::getMinDistance).sum());
+        return result;
     }
 
 

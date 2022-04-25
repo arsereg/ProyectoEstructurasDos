@@ -1,4 +1,5 @@
 package com.cenfotec.mapa.web.rest;
+import com.cenfotec.mapa.domain.ShortestPath;
 import com.cenfotec.mapa.domain.Vertex;
 import com.cenfotec.mapa.domain.VertexDTO;
 import com.cenfotec.mapa.service.GraphService;
@@ -25,9 +26,8 @@ public class GraphResource {
 
 
     @GetMapping("/graph/shortest-path")
-    public ResponseEntity<List<String>> shortestPath(@RequestParam String origin, @RequestParam String destination){
-        List<String> path = graphService.findShortestRoute(origin, destination);
-        return ResponseEntity.ok(path);
+    public ResponseEntity<ShortestPath> shortestPath(@RequestParam String origin, @RequestParam String destination){
+        return ResponseEntity.ok(graphService.findShortestRoute(origin, destination));
     }
 
 
