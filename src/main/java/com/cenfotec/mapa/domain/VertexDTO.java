@@ -7,28 +7,27 @@ import java.util.List;
 
 
 @Data
-public class Vertex implements Comparable<Vertex> {
+public class VertexDTO implements Comparable<VertexDTO> {
     private String name;
-    @EqualsAndHashCode.Exclude private List<Edge> edges;
+    @EqualsAndHashCode.Exclude private List<String> edges;
     private boolean visited;
-    @EqualsAndHashCode.Exclude private Vertex previosVertex;
+    @EqualsAndHashCode.Exclude private VertexDTO previosVertex;
     private double minDistance = Double.MAX_VALUE;
 
-    public Vertex(String name) {
+    public VertexDTO(String name) {
         this.name = name;
         this.edges = new ArrayList<>();
     }
 
-    public void addNeighbour(Edge edge) {
+    public void addNeighbour(String edge) {
         this.edges.add(edge);
-        edge.getTargetVertex().edges.add(new Edge(edge.getWeight(), edge.getTargetVertex(), edge.getStartVertex()));
     }
 
-    public List<Edge> getEdges() {
+    public List<String> getEdges() {
         return edges;
     }
 
-    public void setEdges(List<Edge> edges) {
+    public void setEdges(List<String> edges) {
         this.edges = edges;
     }
 
@@ -40,11 +39,11 @@ public class Vertex implements Comparable<Vertex> {
         this.visited = visited;
     }
 
-    public Vertex getPreviosVertex() {
+    public VertexDTO getPreviosVertex() {
         return previosVertex;
     }
 
-    public void setPreviosVertex(Vertex previosVertex) {
+    public void setPreviosVertex(VertexDTO previosVertex) {
         this.previosVertex = previosVertex;
     }
 
@@ -62,7 +61,7 @@ public class Vertex implements Comparable<Vertex> {
     }
 
     @Override
-    public int compareTo(Vertex otherVertex) {
+    public int compareTo(VertexDTO otherVertex) {
         return Double.compare(this.minDistance, otherVertex.minDistance);
     }
 }

@@ -1,8 +1,8 @@
 package com.cenfotec.mapa.service;
 
 import com.cenfotec.mapa.domain.Edge;
-import com.cenfotec.mapa.domain.Graph;
 import com.cenfotec.mapa.domain.Vertex;
+import com.cenfotec.mapa.domain.VertexDTO;
 import com.cenfotec.mapa.service.dto.ArcoDTO;
 import com.cenfotec.mapa.service.dto.NodoDTO;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,6 @@ public class GraphService {
         this.nodoService = nodoService;
         this.arcoService = arcoService;
         this.djikstraService = djikstraService;
-        initializeGraph();
     }
 
     public Map<String, Vertex> getGraph(){
@@ -53,12 +52,7 @@ public class GraphService {
         this.nodos.forEach(nodoDTO -> {
 
             List<ArcoDTO> adyacentes = arcos.stream().filter(a -> a.connectsNode(nodoDTO.getId())).collect(Collectors.toList());
-
-//            List<ArcoDTO> adyacentes = arcos.stream().filter( a -> new ArrayList<>(a.getFroms()).stream().anyMatch(aForms -> Objects.equals(aForms.getId(), nodoDTO.getId()))).collect(Collectors.toList());
-            int z = 0;
-//            adyacentes.addAll(arcos.stream().filter( a -> new ArrayList<>(a.getTos()).stream().anyMatch(aTos -> Objects.equals(aTos.getId(), nodoDTO.getId()))).collect(Collectors.toList()));
             Vertex node = vertex.get(nodoDTO.getName());
-
             adyacentes.forEach(nodoAdyacentePersistencia -> {
                 if(nodoAdyacentePersistencia.getTos().stream().findFirst().isPresent()){
                     Vertex adyacente = vertex.get(nodoAdyacentePersistencia.getTos().stream().findFirst().get().getName());
@@ -68,9 +62,10 @@ public class GraphService {
         });
     }
 
-    public List<Vertex> findShortestRoute(String from, String to) {
+    public List<String> findShortestRoute(String from, String to) {
+        initializeGraph();
         djikstraService.computePath(vertex.get(from));
-        return djikstraService.getShortestPathTo(vertex.get(to));
+        return djikstraService.getShortestPathTo(vertex.get(to)).stream().map(Vertex::getName).collect(Collectors.toList());
     }
 
 
