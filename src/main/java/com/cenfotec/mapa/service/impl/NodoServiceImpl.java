@@ -6,6 +6,8 @@ import com.cenfotec.mapa.service.NodoService;
 import com.cenfotec.mapa.service.dto.NodoDTO;
 import com.cenfotec.mapa.service.mapper.NodoMapper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,4 +79,50 @@ public class NodoServiceImpl implements NodoService {
         log.debug("Request to delete Nodo : {}", id);
         nodoRepository.deleteById(id);
     }
+
+
+    public void llenarDataFake(){
+
+        String[] nodos = {
+            "nerosyan",
+            "starfall",
+            "blackHorse",
+            "chessed",
+            "scrapwall",
+            "hollowGarden",
+            "chitterhome",
+            "chokingTower",
+            "marstol",
+            "iadenveigh",
+            "kuratown",
+            "deadbridge",
+            "hajoth",
+            "blackpipe",
+            "castleOfKnives",
+            "mormouth",
+            "falheart",
+             "portIce",
+            "sunderHorn",
+            "egede",
+            "hernesOak",
+            "fortPortolmaeus",
+            "boudor",
+            "starKeep",
+            "kenabres",
+        };
+
+        List<Nodo> listaNodos = new ArrayList<>();
+
+        Arrays.stream(nodos).forEachOrdered(nodo -> {
+            Nodo unNodo = new Nodo();
+            unNodo.setName(nodo);
+            unNodo.setX(0.0);
+            unNodo.setY(0.0);
+            listaNodos.add(unNodo);
+        });
+        nodoRepository.saveAll(listaNodos);
+
+    }
+
+
 }

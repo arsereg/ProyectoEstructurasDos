@@ -1,9 +1,10 @@
 package com.cenfotec.mapa.web.rest;
 
 import com.cenfotec.mapa.repository.ArcoRepository;
-import com.cenfotec.mapa.service.ArcoService;
 import com.cenfotec.mapa.service.GraphService;
 import com.cenfotec.mapa.service.dto.ArcoDTO;
+import com.cenfotec.mapa.service.dto.NodoDTO;
+import com.cenfotec.mapa.service.impl.ArcoServiceImpl;
 import com.cenfotec.mapa.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,13 +38,13 @@ public class ArcoResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final ArcoService arcoService;
+    private final ArcoServiceImpl arcoService;
 
     private final ArcoRepository arcoRepository;
 
     private final GraphService graphService;
 
-    public ArcoResource(ArcoService arcoService, ArcoRepository arcoRepository, GraphService graphService) {
+    public ArcoResource(ArcoServiceImpl arcoService, ArcoRepository arcoRepository, GraphService graphService) {
         this.arcoService = arcoService;
         this.arcoRepository = arcoRepository;
         this.graphService = graphService;
@@ -187,5 +188,15 @@ public class ArcoResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+
+
+    @PostMapping("/arcos/fakeData")
+    public ResponseEntity<List<ArcoDTO>> fakeData() {
+        log.debug("REST request to fakeData Nodo");
+        arcoService.llenarDataFake();
+        List<ArcoDTO> page = arcoService.findAll();
+        return ResponseEntity.ok().body(page);
     }
 }

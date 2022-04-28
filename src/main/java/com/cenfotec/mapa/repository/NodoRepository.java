@@ -9,4 +9,10 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface NodoRepository extends JpaRepository<Nodo, Long> {}
+public interface NodoRepository extends JpaRepository<Nodo, Long> {
+
+    Nodo findByName(String name);
+
+
+
+}
