@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class ShortestPath {
 
-    List<String> path;
+    List<String> nodos;
+    List<String> arcos;
     double weight;
 }
