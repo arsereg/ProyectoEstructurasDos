@@ -4,6 +4,7 @@ import com.cenfotec.mapa.repository.NodoRepository;
 import com.cenfotec.mapa.service.GraphService;
 import com.cenfotec.mapa.service.NodoService;
 import com.cenfotec.mapa.service.dto.NodoDTO;
+import com.cenfotec.mapa.service.impl.NodoServiceImpl;
 import com.cenfotec.mapa.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,13 +34,13 @@ public class NodoResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final NodoService nodoService;
+    private final NodoServiceImpl nodoService;
 
     private final NodoRepository nodoRepository;
 
     private final GraphService graphService;
 
-    public NodoResource(NodoService nodoService, NodoRepository nodoRepository, GraphService graphService) {
+    public NodoResource(NodoServiceImpl nodoService, NodoRepository nodoRepository, GraphService graphService) {
         this.nodoService = nodoService;
         this.nodoRepository = nodoRepository;
         this.graphService = graphService;
@@ -174,4 +175,14 @@ public class NodoResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+
+    @PostMapping("/nodos/fakeData")
+    public ResponseEntity<List<NodoDTO>> fakeData() {
+        log.debug("REST request to fakeData Nodo");
+        nodoService.llenarDataFake();
+        List<NodoDTO> page = nodoService.findAll();
+        return ResponseEntity.ok().body(page);
+    }
+
 }

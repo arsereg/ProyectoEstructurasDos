@@ -25,4 +25,6 @@ public interface ArcoRepository extends ArcoRepositoryWithBagRelationships, JpaR
     default Page<Arco> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+
 }
