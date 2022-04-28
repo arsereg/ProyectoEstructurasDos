@@ -67,12 +67,15 @@ public class GraphService {
         initializeGraph();
         djikstraService.computePath(vertex.get(from));
         ShortestPath result = new ShortestPath();
-        result.setPath(djikstraService.getShortestPathTo(vertex.get(to)).stream().map(Vertex::getName).collect(Collectors.toList()));
+        List<String> nodos = djikstraService.getShortestPathTo(vertex.get(to)).stream().map(Vertex::getName).collect(Collectors.toList());
+        result.setNodos(nodos);
         result.setWeight(djikstraService.getShortestPathTo(vertex.get(to)).stream().mapToDouble(Vertex::getMinDistance).sum());
+        result.setArcos(new ArrayList<>());
+        for (int i = 1; i < nodos.size(); i++) {
+            String arco = nodos.get(i - 1) + "-" + nodos.get(i);
+            result.getArcos().add(arco);
+        }
         return result;
     }
-
-
-
 
 }
